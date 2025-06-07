@@ -5,7 +5,8 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.string('number').notNullable()
+      table.increments('id').primary()
+      table.string('version').notNullable()
       table.string('registration_link').notNullable()
       table.dateTime('start').notNullable()
       table.dateTime('finish').notNullable()

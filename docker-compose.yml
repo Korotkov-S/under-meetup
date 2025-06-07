@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  app:
+  undermeetup:
     build:
       context: .
       dockerfile: ./dev.Dockerfile
@@ -15,8 +15,8 @@ services:
       - APP_KEY=cPO4rQKcrRFeE5dS5lfF5n3Ng_4hY97S
       - NODE_ENV=development
       - SESSION_DRIVER=cookie
-      - DB_HOST=postgres
-      - DB_PORT=5444
+      - DB_HOST=db
+      - DB_PORT=3307
       - DB_USER=adonis
       - DB_PASSWORD=adonis
       - DB_DATABASE=undermeetup
@@ -24,20 +24,21 @@ services:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
-      - postgres
+      - db
     networks:
       - adonis-network
 
-  postgres:
-    image: postgres:13-alpine
+  db:
+    image: mariadb:10.6
     environment:
-      - POSTGRES_USER=adonis
-      - POSTGRES_PASSWORD=adonis
-      - POSTGRES_DB=undermeetup
+      - MYSQL_ROOT_PASSWORD=adonis
+      - MYSQL_DATABASE=undermeetup
+      - MYSQL_USER=adonis
+      - MYSQL_PASSWORD=adonis
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - '5444:5432'
+      - '3307:3306'
     networks:
       - adonis-network
 
