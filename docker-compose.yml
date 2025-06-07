@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./dev.Dockerfile
+    ports:
+      - '3333:3333'
+    environment:
+      - TZ=UTC
+      - PORT=3333
+      - HOST=0.0.0.0
+      - LOG_LEVEL=info
+      - APP_KEY=cPO4rQKcrRFeE5dS5lfF5n3Ng_4hY97S
+      - NODE_ENV=development
+      - SESSION_DRIVER=cookie
+      - DB_HOST=postgres
+      - DB_PORT=5444
+      - DB_USER=adonis
+      - DB_PASSWORD=adonis
+      - DB_DATABASE=undermeetup
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+    networks:
+      - adonis-network
+
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_USER=adonis
+      - POSTGRES_PASSWORD=adonis
+      - POSTGRES_DB=undermeetup
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5444:5432'
+    networks:
+      - adonis-network
+
+volumes:
+  postgres_data:
+
+networks:
+  adonis-network:
+    driver: bridge

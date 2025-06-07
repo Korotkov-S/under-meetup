@@ -8,4 +8,8 @@ export default class MeetupsController {
   async show({ inertia, params }: HttpContext) {
     return inertia.render('meetups/show', { id: params.id })
   }
+
+  async activeMeetup({ inertia, params }: HttpContext) {
+    return inertia.render('home', { id: params.id })
+  }
 }
