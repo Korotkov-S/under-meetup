@@ -9,7 +9,7 @@ export default class Meetup extends BaseModel {
   declare id: number
 
   @column()
-  declare number: string
+  declare version: string
 
   @column()
   declare registrationLink: string

@@ -26,6 +26,12 @@ export default class Performance extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
+  @column()
+  declare speakerId: number
+
+  @column()
+  declare meetupId: number
+
   @belongsTo(() => Speaker)
   declare speaker: BelongsTo<typeof Speaker>
 
