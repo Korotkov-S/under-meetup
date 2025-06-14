@@ -1,3 +1,5 @@
+import Meetup from '#models/meetup'
+import Performance from '#models/performance'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class MeetupsController {
@@ -6,7 +8,14 @@ export default class MeetupsController {
   }
 
   async show({ inertia, params }: HttpContext) {
-    return inertia.render('meetups/show', { id: params.id })
+    const meetup = await Meetup.query()
+      .preload('performances', (performanceQuery) => {
+        performanceQuery.preloadOnce('speaker')
+      })
+      .where({ id: params.id })
+      .first()
+
+    return inertia.render('meetups/show', { id: params.id, meetup })
   }
 
   async activeMeetup({ inertia, params }: HttpContext) {

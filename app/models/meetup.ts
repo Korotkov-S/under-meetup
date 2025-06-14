@@ -27,5 +27,5 @@ export default class Meetup extends BaseModel {
   declare updatedAt: DateTime
 
   @hasMany(() => Performance)
-  declare performance: HasMany<typeof Performance>
+  declare performances: HasMany<typeof Performance>
 }

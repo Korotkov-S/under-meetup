@@ -13,41 +13,7 @@ import telegram from '~/assets/telegram.png'
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-
-      {/* <h1 className="text-4xl font-bold text-black text-center">UnderМитап</h1> */}
-      {/* <div className="bg-blue-600 py-6">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center ">
-            <h1 className="text-4xl font-bold text-white text-center">
-              UnderМитап
-            </h1>
-            <div className="flex items-center gap-6 text-blue-100 text-sm">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>15 марта 2024</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                <span>18:00 - 21:00</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                <span>Технопарк "Сколково"</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/* Main Content */}
       <div className="max-w-[672px] mx-auto px-4 py-8">
-        {/* <div className="md:col-span-2 space-y-8">
-          <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-center">UnderМитап</h2>
-          </div>
-        </div> */}
-
         <div className="grid grid-cols-1 gap-8">
           <Header />
 
@@ -164,8 +130,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Sidebar */}
         </div>
       </div>
     </div>
