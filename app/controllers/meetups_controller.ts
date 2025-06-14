@@ -1,23 +1,30 @@
 import Meetup from '#models/meetup'
 import type { HttpContext } from '@adonisjs/core/http'
+import { DateTime } from 'luxon'
 
 export default class MeetupsController {
-  async index({ inertia }: HttpContext) {
-    return inertia.render('meetups/index', { id: 1 })
+  #baseQuere() {
+    return Meetup.query().preload('performances', (performanceQuery) => {
+      performanceQuery.preloadOnce('speaker')
+    })
   }
 
   async show({ inertia, params }: HttpContext) {
-    const meetup = await Meetup.query()
-      .preload('performances', (performanceQuery) => {
-        performanceQuery.preloadOnce('speaker')
-      })
-      .where({ id: params.id })
-      .first()
+    const meetup = await this.#baseQuere().where({ version: params.id }).first()
 
-    return inertia.render('meetups/show', { id: params.id, meetup })
+    return inertia.render('meetups/show', { meetup })
   }
 
-  async activeMeetup({ inertia, params }: HttpContext) {
-    return inertia.render('home', { id: params.id })
+  async activeMeetup({ inertia }: HttpContext) {
+    let meetup = await this.#baseQuere()
+      .where('start', '>', DateTime.now().toSQL())
+      .orderBy('start', 'asc')
+      .first()
+
+    if (!meetup) {
+      meetup = await this.#baseQuere().orderBy('start', 'desc').first()
+    }
+
+    return inertia.render('meetups/show', { meetup })
   }
 }
