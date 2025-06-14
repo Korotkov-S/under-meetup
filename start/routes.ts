@@ -7,7 +7,7 @@
 |
 */
 
-const MeetupsController = () => import('#controllers/MeetupsController')
+const MeetupsController = () => import('#controllers/meetups_controller')
 
 import router from '@adonisjs/core/services/router'
 router.on('/').renderInertia('home')

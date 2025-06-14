@@ -1015,5 +1015,5 @@ export function ChatIcon() {
         </g>
       </svg>
     </div>
-  );
+  )
 }

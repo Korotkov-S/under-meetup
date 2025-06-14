@@ -1,5 +1,4 @@
 import Meetup from '#models/meetup'
-import Performance from '#models/performance'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class MeetupsController {
