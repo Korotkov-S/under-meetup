@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,11 +7,37 @@
     @stack('dumper')
     @viteReactRefresh()
     @inertiaHead()
-    @vite(['inertia/app/app.tsx', `inertia/pages/${page.component}.tsx`])
+    @vite([
+      'inertia/app/app.tsx',
+      'inertia/pages/' + page.component + '.tsx'
+    ])
   </head>
 
   <body class="min-h-screen w-screen font-sans">
     @inertia()
   </body>
 
+  @if(timepadId)
+    <script
+      async
+      defer
+      charset="UTF-8"
+      data-timepad-customized="318596"
+      data-timepad-widget-v2="event_register"
+      src="https://timepad.ru/js/tpwf/loader/min/loader.js"
+    >
+      (function() {
+        return {
+          event: {
+            id: 3459509
+          },
+          hidePreloading: true,
+          display: "popup",
+          popup: {
+            triggerSelector: "#{{ timepadId }}"
+          }
+        };
+      })();
+    </script>
+  @end
 </html>

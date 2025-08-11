@@ -14,6 +14,9 @@ export default class Meetup extends BaseModel {
   @column()
   declare registrationLink: string
 
+  @column()
+  declare timepadId: string
+
   @column.dateTime()
   declare start: DateTime
 

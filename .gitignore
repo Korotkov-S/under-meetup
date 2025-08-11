@@ -3,6 +3,8 @@ node_modules
 build
 tmp
 
+.yarn
+
 # Secrets
 .env
 .env.local

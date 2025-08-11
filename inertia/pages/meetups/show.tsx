@@ -6,9 +6,11 @@ import ButtonLink from '~/components/ButtonLink'
 import Header from '~/components/Header'
 import SpeakerItem from '~/components/SpeakerItem'
 import telegram from '~/assets/telegram.png'
-import { DateTime } from 'luxon'
-
-export default function MeetupShow(props: { id: string; meetup: Meetup }) {
+import { Button } from '~/components/Button'
+import { InferPageProps } from '@adonisjs/inertia/types'
+import MeetupsController from '#controllers/meetups_controller'
+// { id: string; meetup: Meetup }
+export default function MeetupShow(props: InferPageProps<MeetupsController, 'show'>) {
   console.log(props.meetup)
 
   const getStartFinish = ({ start, finish }: { start: string; finish: string }) => {
@@ -28,23 +30,21 @@ export default function MeetupShow(props: { id: string; meetup: Meetup }) {
           />
 
           <div className="space-y-4">
-            <div className="flex items-center bg-white rounded-3xl shadow-block p-4">
-              <div className="flex items-center gap-4">
-                <div>
-                  <p className="text-lg text-text-primary font-medium leading-tight">
-                    Пройдите регистрацию
-                  </p>
+            {props.meetup.timepadId && (
+              <div className="flex items-center bg-white rounded-3xl shadow-block p-4">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <p className="text-lg text-text-primary font-medium leading-tight">
+                      Пройдите регистрацию
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <ButtonLink
-                href="https://forms.yandex.ru/u/67cb4b15068ff03038a70a48/"
-                className="ml-auto"
-                target="_blank"
-              >
-                Зарегистрироваться
-              </ButtonLink>
-            </div>
+                <Button id={props.meetup.timepadId} className="ml-auto">
+                  Зарегистрироваться
+                </Button>
+              </div>
+            )}
 
             <div className="flex items-center bg-white rounded-3xl shadow-block p-4">
               <div className="flex items-center gap-4">
@@ -54,7 +54,12 @@ export default function MeetupShow(props: { id: string; meetup: Meetup }) {
                   <p className="text-lg text-text-primary font-medium leading-tight">
                     Чатик в телеге
                   </p>
-                  <a href="https://t.me/undermeetup" className="ml-auto" target="_blank">
+                  <a
+                    href="https://t.me/undermeetup"
+                    className="ml-auto"
+                    target="_blank"
+                    rel="noopener"
+                  >
                     <p className="text-md text-text-link font-medium leading-tight">@undermeetup</p>
                   </a>
                 </div>
@@ -108,6 +113,7 @@ export default function MeetupShow(props: { id: string; meetup: Meetup }) {
                         href="https://yandex.ru/maps/-/CHRQzDNX"
                         className="text-text-link leading-tight"
                         target="_blank"
+                        rel="noopener"
                       >
                         Дворянская улица, 27Ак1, Владимир
                       </a>

@@ -9,10 +9,14 @@ export default class MeetupsController {
     })
   }
 
-  async show({ inertia, params }: HttpContext) {
+  async show({ inertia, params, response }: HttpContext) {
     const meetup = await this.#baseQuere().where({ version: params.id }).first()
 
-    return inertia.render('meetups/show', { meetup })
+    if (!meetup) {
+      return response.redirect().toPath('/')
+    }
+
+    return inertia.render('meetups/show', { meetup }, { timepadId: meetup.timepadId })
   }
 
   async activeMeetup({ inertia }: HttpContext) {
@@ -25,6 +29,7 @@ export default class MeetupsController {
       meetup = await this.#baseQuere().orderBy('start', 'desc').first()
     }
 
-    return inertia.render('meetups/show', { meetup })
+    //@ts-ignore
+    return inertia.render('meetups/show', { meetup }, { timepadId: meetup.timepadId })
   }
 }
