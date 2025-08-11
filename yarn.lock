@@ -189,6 +189,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@adonisjs/drive@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "@adonisjs/drive@npm:3.4.1"
+  dependencies:
+    flydrive: ^1.1.0
+  peerDependencies:
+    "@adonisjs/core": ^6.2.0
+    "@aws-sdk/client-s3": ^3.577.0
+    "@aws-sdk/s3-request-presigner": ^3.577.0
+    "@google-cloud/storage": ^7.10.2
+  peerDependenciesMeta:
+    "@aws-sdk/client-s3":
+      optional: true
+    "@aws-sdk/s3-request-presigner":
+      optional: true
+    "@google-cloud/storage":
+      optional: true
+  checksum: a4a5e71f5fe3209db008dea890fe88a4f97b3eeb4bdb6f8160f97d55fe91cfe57d2f22d00beaada2d10800475b9d6e964162f8deceba0e582e318fbba1abe409
+  languageName: node
+  linkType: hard
+
 "@adonisjs/encryption@npm:^6.0.2":
   version: 6.0.2
   resolution: "@adonisjs/encryption@npm:6.0.2"
@@ -1119,7 +1140,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/retry@npm:^0.4.2":
+"@humanwhocodes/retry@npm:^0.4.2, @humanwhocodes/retry@npm:^0.4.3":
   version: 0.4.3
   resolution: "@humanwhocodes/retry@npm:0.4.3"
   checksum: d423455b9d53cf01f778603404512a4246fb19b83e74fe3e28c70d9a80e9d4ae147d2411628907ca983e91a855a52535859a8bb218050bc3f6dbd7a553b7b442
@@ -1564,6 +1585,20 @@ __metadata:
     slugify: ^1.6.6
     truncatise: ^0.0.8
   checksum: 5b0d7fd79d3ec7245450a97c2ba8dedb275ca5feb7eca72bb324e0a7cece786492195567dfa191c9f67dd35e550bb283442df53b103442ac9bead5d09bda7681
+  languageName: node
+  linkType: hard
+
+"@poppinss/utils@npm:^6.10.0":
+  version: 6.10.0
+  resolution: "@poppinss/utils@npm:6.10.0"
+  dependencies:
+    "@poppinss/exception": ^1.2.1
+    "@poppinss/object-builder": ^1.1.0
+    "@poppinss/string": ^1.3.0
+    flattie: ^1.1.1
+    safe-stable-stringify: ^2.5.0
+    secure-json-parse: ^4.0.0
+  checksum: 9d0074ee23e1ae0681c8acbfeac741f92fe2c2e8c066825176a32514cbd449365958dfd218f4c5ed41a063ae5f63b788b2aaba72ed827156a9dfc526be16955a
   languageName: node
   linkType: hard
 
@@ -4158,6 +4193,29 @@ __metadata:
   version: 1.1.1
   resolution: "flattie@npm:1.1.1"
   checksum: dd78a052307fe11c90a4b565aa3d6dc12718d948a172a9dd6b6c847a9e1f47c3353b65d8894dda016cb224ec4b9b2005ac0f1087786fec2c92fcf8f2caf1dd31
+  languageName: node
+  linkType: hard
+
+"flydrive@npm:^1.1.0":
+  version: 1.3.0
+  resolution: "flydrive@npm:1.3.0"
+  dependencies:
+    "@humanwhocodes/retry": ^0.4.3
+    "@poppinss/utils": ^6.10.0
+    etag: ^1.8.1
+    mime-types: ^3.0.1
+  peerDependencies:
+    "@aws-sdk/client-s3": ^3.577.0
+    "@aws-sdk/s3-request-presigner": ^3.577.0
+    "@google-cloud/storage": ^7.10.2
+  peerDependenciesMeta:
+    "@aws-sdk/client-s3":
+      optional: true
+    "@aws-sdk/s3-request-presigner":
+      optional: true
+    "@google-cloud/storage":
+      optional: true
+  checksum: e6ddcdef63f78c9600ffc4a0a2e74a319358684bc2c163decea9faf2db301fbacb7d2ed21f62cd2669a2b36e3d5495ff85fc5e50cad81ca5203decde6f4d1848
   languageName: node
   linkType: hard
 
@@ -7712,6 +7770,7 @@ __metadata:
     "@adonisjs/auth": ^9.3.1
     "@adonisjs/core": ^6.17.2
     "@adonisjs/cors": ^2.2.1
+    "@adonisjs/drive": ^3.4.1
     "@adonisjs/eslint-config": ^2.0.0
     "@adonisjs/inertia": ^3.1.0
     "@adonisjs/lucid": ^21.6.0
