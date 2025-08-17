@@ -1,34 +1,37 @@
-FROM node:22-alpine3.20 AS base
+# ---- Base image ----
+FROM node:22-alpine AS base
+WORKDIR /app
+RUN corepack enable
 
-# All deps stage
+# ---- Dependencies stage ----
 FROM base AS deps
+COPY package.json yarn.lock ./
+COPY .yarn ./.yarn
+COPY .yarnrc.yml ./
+RUN yarn install --immutable
+
+# ---- Build stage ----
+FROM deps AS build
+COPY . .
+# Build frontend (React + Inertia) and backend
+RUN yarn build
+
+# ---- Production stage ----
+FROM node:22-alpine AS prod
 WORKDIR /app
-ADD package.json yarn.lock ./
 RUN corepack enable
-RUN yarn set version 4.9.2
-RUN yarn
 
-# Production only deps stage
-FROM base AS production-deps
-WORKDIR /app
-ADD package.json yarn.lock ./
-RUN corepack enable
-RUN yarn set version 4.9.2
-RUN yarn
+# Copy only production dependencies + Yarn config
+COPY package.json yarn.lock ./
+COPY .yarn ./.yarn
+COPY .yarnrc.yml ./
+RUN yarn workspaces focus --all --production
 
-# Build stage
-FROM base AS build
-WORKDIR /app
-COPY --from=deps /app/node_modules /app/node_modules
-ADD . .
-RUN node ace build
+# Copy build output
+COPY --from=build /app/build ./build
+# COPY --from=build /app/public ./public
+COPY --from=build /app/start ./start
+COPY --from=build /app/node_modules ./node_modules
 
-# Production stage
-FROM base
-ENV NODE_ENV=production
-WORKDIR /app
-COPY --from=production-deps /app/node_modules /app/node_modules
-COPY --from=build /app/build /app
-RUN apk --no-cache add curl
-EXPOSE 8080
-CMD ["node", "./bin/server.js"]
+EXPOSE 3333
+CMD ["node", "./build/bin/server.js"]
