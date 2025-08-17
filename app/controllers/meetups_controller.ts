@@ -1,16 +1,13 @@
-import Meetup from '#models/meetup'
+import { MeetupService } from '#services/meetup_service'
+import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
-import { DateTime } from 'luxon'
 
+@inject()
 export default class MeetupsController {
-  #baseQuere() {
-    return Meetup.query().preload('performances', (performanceQuery) => {
-      performanceQuery.preloadOnce('speaker')
-    })
-  }
+  constructor(private meetupService: MeetupService) {}
 
   async show({ inertia, params, response }: HttpContext) {
-    const meetup = await this.#baseQuere().where({ version: params.id }).first()
+    const meetup = await this.meetupService.findByVersion(params.id)
 
     if (!meetup) {
       return response.redirect().toPath('/')
@@ -20,13 +17,10 @@ export default class MeetupsController {
   }
 
   async activeMeetup({ inertia }: HttpContext) {
-    let meetup = await this.#baseQuere()
-      .where('start', '>', DateTime.now().toSQL())
-      .orderBy('start', 'asc')
-      .first()
+    let meetup = await this.meetupService.findActiveMeetup()
 
     if (!meetup) {
-      meetup = await this.#baseQuere().orderBy('start', 'desc').first()
+      meetup = await this.meetupService.findLastMeetup()
     }
 
     //@ts-ignore

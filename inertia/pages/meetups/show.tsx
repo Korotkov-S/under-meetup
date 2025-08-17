@@ -11,8 +11,6 @@ import { InferPageProps } from '@adonisjs/inertia/types'
 import MeetupsController from '#controllers/meetups_controller'
 // { id: string; meetup: Meetup }
 export default function MeetupShow(props: InferPageProps<MeetupsController, 'show'>) {
-  console.log(props.meetup)
-
   const getStartFinish = ({ start, finish }: { start: string; finish: string }) => {
     const startDate = new Date(start)
     const finishDate = new Date(finish)
@@ -93,7 +91,7 @@ export default function MeetupShow(props: InferPageProps<MeetupsController, 'sho
                   return (
                     <SpeakerItem
                       key={perf.id}
-                      image={''}
+                      image={perf.speaker.photo}
                       name={`${perf.speaker.firstName} ${perf.speaker.lastName}`}
                       position={`${perf.speaker.position}, ${perf.speaker.companyName}`}
                       time={getStartFinish({ start: perf.start, finish: perf.finish })}

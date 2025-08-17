@@ -4,12 +4,50 @@ import Speaker from '#models/speaker'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import { DateTime } from 'luxon'
 import db from '@adonisjs/lucid/services/db'
+import { cuid } from '@adonisjs/core/helpers'
+import drive from '@adonisjs/drive/services/main'
 
 export default class MeetupSeeder extends BaseSeeder {
   static environment = ['development', 'testing']
 
   async run() {
     await db.transaction(async (trx) => {
+      async function generateAvatarPhoto() {
+        try {
+          // Используем сервис для генерации случайных аватаров
+          const url = 'https://api.multiavatar.com/' + cuid() + '.svg'
+
+          const res = await fetch(url)
+
+          if (!res.ok) {
+            console.error(`Не удалось скачать аватар: ${url}`)
+            // Fallback на picsum для аватаров
+            const fallbackUrl = 'https://picsum.photos/200/200'
+            const fallbackRes = await fetch(fallbackUrl)
+
+            if (!fallbackRes.ok) {
+              console.error(`Не удалось скачать fallback аватар: ${fallbackUrl}`)
+              return null
+            }
+
+            const buffer = await fallbackRes.arrayBuffer()
+            const fileName = `avatars/avatar_${cuid()}.jpg`
+
+            await drive.use('fs').put(fileName, Buffer.from(buffer))
+            return fileName
+          }
+
+          const svgContent = await res.text()
+          const fileName = `avatars/avatar_${cuid()}.svg`
+
+          await drive.use('fs').put(fileName, svgContent)
+          return fileName
+        } catch (error) {
+          console.error('Ошибка при генерации аватара:', error)
+          return null
+        }
+      }
+
       const meetupVersion0 = await Meetup.create(
         {
           version: '0',
@@ -36,6 +74,7 @@ export default class MeetupSeeder extends BaseSeeder {
           lastName: 'Ланцев',
           position: 'Android-лид',
           companyName: 'Windy.app',
+          photo: await generateAvatarPhoto(),
         },
         { client: trx }
       )
@@ -46,6 +85,7 @@ export default class MeetupSeeder extends BaseSeeder {
           lastName: 'Коротков',
           position: 'React-Native-лид',
           companyName: 'Студия Коротковых',
+          photo: await generateAvatarPhoto(),
         },
         { client: trx }
       )
@@ -56,6 +96,7 @@ export default class MeetupSeeder extends BaseSeeder {
           lastName: 'Давиденко',
           position: 'Разработчик мобильных приложений',
           companyName: 'Nextika',
+          photo: await generateAvatarPhoto(),
         },
         { client: trx }
       )
@@ -66,6 +107,7 @@ export default class MeetupSeeder extends BaseSeeder {
           lastName: 'Никитин',
           position: 'Smart-Contract Security Researcher',
           companyName: 'Независимый исследователь',
+          photo: await generateAvatarPhoto(),
         },
         { client: trx }
       )
