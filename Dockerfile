@@ -4,12 +4,16 @@ FROM node:22-alpine3.20 AS base
 FROM base AS deps
 WORKDIR /app
 ADD package.json yarn.lock ./
+RUN corepack enable
+RUN yarn set version 4.9.2
 RUN yarn
 
 # Production only deps stage
 FROM base AS production-deps
 WORKDIR /app
 ADD package.json yarn.lock ./
+RUN corepack enable
+RUN yarn set version 4.9.2
 RUN yarn
 
 # Build stage
