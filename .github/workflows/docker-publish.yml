@@ -41,8 +41,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t $IMAGE_LC:latest .
+          docker build -t ghcr.io/korotkov-s/under-meetup:latest .
 
       - name: Push Docker image
         run: |
-          docker push $IMAGE_LC:latest
+          docker push ghcr.io/korotkov-s/under-meetup:latest
