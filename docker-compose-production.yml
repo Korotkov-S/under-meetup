@@ -1,8 +1,8 @@
-version: '3.8'
-
 services:
   app:
-    build: .
+    image: ghcr.io/korotkov-s/under-meetup:latest
+    container_name: under-meetup
+    restart: always
     ports:
       - '3333:3333'
     env_file: .env
@@ -10,25 +10,26 @@ services:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
-      - postgres
+      - db
     networks:
       - adonis-network
 
-  postgres:
-    image: postgres:13-alpine
+  db:
+    image: mariadb:10.6
     environment:
-      - POSTGRES_USER=adonis
-      - POSTGRES_PASSWORD=adonis
-      - POSTGRES_DB=undermeetup
+      - MYSQL_ROOT_PASSWORD=adonis
+      - MYSQL_DATABASE=undermeetup
+      - MYSQL_USER=adonis
+      - MYSQL_PASSWORD=adonis
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mariadb_data:/var/lib/mysql
     ports:
-      - '5444:5444'
+      - '3307:3306'
     networks:
       - adonis-network
 
 volumes:
-  postgres_data:
+  mariadb_data:
 
 networks:
   adonis-network:

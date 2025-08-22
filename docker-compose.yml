@@ -36,14 +36,14 @@ services:
       - MYSQL_USER=adonis
       - MYSQL_PASSWORD=adonis
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mariadb_data:/var/lib/mysql
     ports:
       - '3307:3306'
     networks:
       - adonis-network
 
 volumes:
-  postgres_data:
+  mariadb_data:
 
 networks:
   adonis-network:
