@@ -36,7 +36,7 @@ COPY --from=build /app/start ./start
 COPY --from=build /app/node_modules ./node_modules
 
 
-EXPOSE 80
+EXPOSE 3333
 # ENV NODE_ENV=production
 # CMD ["node", "./build/bin/server.js"]
 CMD ["sh", "-c", "cd build && NODE_ENV=production node ./bin/server.js"]
