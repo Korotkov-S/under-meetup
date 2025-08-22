@@ -34,11 +34,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Convert repo owner and name to lowercase
-        run: |
-          echo "IMAGE=ghcr.io/${{ github.repository_owner }}/under-meetup" >> $GITHUB_ENV
-          echo "IMAGE_LC=ghcr.io/${{ github.repository_owner | toLower }}/under-meetup" >> $GITHUB_ENV
-
       - name: Build Docker image
         run: |
           docker build -t ghcr.io/korotkov-s/under-meetup:latest .
