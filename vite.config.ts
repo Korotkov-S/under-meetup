@@ -20,4 +20,7 @@ export default defineConfig({
       '~/': `${getDirname(import.meta.url)}/inertia/`,
     },
   },
+  server: {
+    allowedHosts: ['undermeetup.ru', 'www.undermeetup.ru'],
+  },
 })

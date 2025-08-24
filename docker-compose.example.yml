@@ -1,0 +1,71 @@
+services:
+  traefik:
+    image: traefik:v3.5
+    container_name: traefik
+    restart: always
+    command:
+      - '--providers.docker=true'
+      - '--providers.docker.network=undermeetup-network'
+      - '--providers.docker.exposedByDefault=false'
+
+      - '--entryPoints.http.address=:80'
+      - '--entrypoints.http.http.redirections.entryPoint.to=https'
+      - '--entrypoints.http.http.redirections.entryPoint.scheme=https'
+      - '--entrypoints.http.http.redirections.entryPoint.permanent=true'
+      - '--entryPoints.https.address=:443'
+
+      - '--certificatesResolvers.letsEncrypt.acme.httpChallenge.entryPoint=http'
+      - '--certificatesResolvers.letsEncrypt.acme.email=alexkorotkovh@gmail.com'
+      - '--certificatesResolvers.letsEncrypt.acme.storage=/certs/acme.json'
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - './certs:/certs'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    networks:
+      - undermeetup-network
+
+  app:
+    image: ghcr.io/korotkov-s/under-meetup:latest
+    container_name: under-meetup
+    restart: always
+    env_file: .env
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=undermeetup-network'
+
+      - 'traefik.http.routers.undermeetup.rule=Host(`undermeetup.ru`)'
+      - 'traefik.http.routers.undermeetup.entryPoints=https'
+      - 'traefik.http.routers.undermeetup.tls=true'
+      - 'traefik.http.routers.undermeetup.tls.certResolver=letsEncrypt'
+
+      - 'traefik.http.services.undermeetup.loadbalancer.server.port=80'
+    expose:
+      - '80'
+    networks:
+      - undermeetup-network
+
+  db:
+    image: mariadb:10.6
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=
+      - MYSQL_USER=
+      - MYSQL_PASSWORD=
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - undermeetup-network
+
+volumes:
+  mariadb_data:
+
+networks:
+  undermeetup-network:
+    driver: bridge

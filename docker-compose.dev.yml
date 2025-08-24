@@ -1,19 +1,6 @@
-services:
-  app:
-    image: ghcr.io/korotkov-s/under-meetup:latest
-    container_name: under-meetup
-    restart: always
-    ports:
-      - '3333:3333'
-    env_file: .env
-    volumes:
-      - ./:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      - db
-    networks:
-      - adonis-network
+version: '3.8'
 
+services:
   db:
     image: mariadb:10.6
     environment:
